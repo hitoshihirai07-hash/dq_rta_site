@@ -7,26 +7,12 @@
 </head>
 <body>
   <h1>DQI ボス一覧</h1>
-  <p>同じフォルダにある CSV ファイル（dq1_boss_multiunit.csv）の内容を自動で読み込んで表示します。</p>
-  <table border="1" cellspacing="0" cellpadding="4">
-    <thead>
-      <tr>
-        <th>ボス戦名</th>
-        <th>個体名</th>
-        <th>体数</th>
-        <th>HP</th>
-        <th>経験値</th>
-        <th>ゴールド</th>
-        <th>出現場所</th>
-        <th>特徴メモ</th>
-        <th>参考元</th>
-      </tr>
-    </thead>
-    <tbody data-csv="dq1_boss_multiunit.csv">
-      <!-- CSVの内容で自動的に埋まります -->
-    </tbody>
-  </table>
+  <p>このページでは、ボス名と出現場所の一覧だけを表示します。各ボス名をクリックすると、詳細ページに飛びます。</p>
 
-  <script src="boss_table.js"></script>
+  <div data-role="boss-list" data-csv="dq1_boss_multiunit.csv" data-detail="dq1_boss_detail.html"></div>
+
+  <p><a href="index.html">トップに戻る</a></p>
+
+  <script src="boss_pages.js"></script>
 </body>
 </html>
