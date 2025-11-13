@@ -1,41 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const listRoot   = document.querySelector('[data-role="boss-list"]');
+  const listRoot = document.querySelector('[data-role="boss-list"]');
   const detailRoot = document.querySelector('[data-role="boss-detail"]');
 
   // 軽い見た目調整用のスタイルを追加
   const style = document.createElement("style");
   style.textContent = `
-  table.boss-index-table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 900px;
-  }
-  table.boss-index-table th,
-  table.boss-index-table td {
-    border: 1px solid #ddd;
-    padding: 4px 6px;
-    font-size: 13px;
-  }
-  table.boss-index-table th {
-    background: #f5f5f5;
-  }
-  .boss-unit-block {
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 8px 10px;
-    margin: 8px 0;
-    font-size: 13px;
-  }
-  .boss-unit-block:hover {
-    background: #fafafa;
-  }
-  .boss-unit-block h3 {
-    margin: 0 0 4px;
-    font-size: 14px;
-  }
-  .boss-unit-block p {
-    margin: 2px 0;
-  }
+    table.boss-index-table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 900px;
+    }
+    table.boss-index-table th,
+    table.boss-index-table td {
+      border: 1px solid #ddd;
+      padding: 4px 6px;
+      font-size: 13px;
+    }
+    table.boss-index-table th {
+      background: #f5f5f5;
+    }
+    .boss-unit-block {
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin: 8px 0;
+      font-size: 13px;
+    }
+    .boss-unit-block:hover {
+      background: #fafafa;
+    }
+    .boss-unit-block h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+    .boss-unit-block p {
+      margin: 2px 0;
+    }
   `;
   document.head && document.head.appendChild(style);
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setupBossList(root) {
-  const csvFile   = root.getAttribute("data-csv");
+  const csvFile = root.getAttribute("data-csv");
   const detailPage = root.getAttribute("data-detail") || "dq1_boss_detail.html";
   if (!csvFile) return;
 
@@ -61,35 +61,33 @@ function setupBossList(root) {
       const rows = parseCSV(text);
       if (!rows || rows.length <= 1) return;
 
-      const header   = rows[0];
-      const idxBoss  = header.indexOf("ボス戦名");
+      const header = rows[0];
+      const idxBoss = header.indexOf("ボス戦名");
       const idxPlace = header.indexOf("出現場所");
-      const idxHP    = header.indexOf("HP");
-      const idxExp   = header.indexOf("経験値");
-      const idxGold  = header.indexOf("ゴールド");
+      const idxHP = header.indexOf("HP");
+      const idxExp = header.indexOf("経験値");
+      const idxGold = header.indexOf("ゴールド");
+
       if (idxBoss === -1) return;
 
       const bosses = new Map();
-
       for (let i = 1; i < rows.length; i++) {
         const cols = rows[i];
         const bossName = cols[idxBoss] || "";
         if (!bossName) continue;
-
         if (!bosses.has(bossName)) {
           bosses.set(bossName, {
             name: bossName,
             place: idxPlace >= 0 ? (cols[idxPlace] || "") : "",
-            hp:    idxHP   >= 0 ? (cols[idxHP]   || "") : "",
-            exp:   idxExp  >= 0 ? (cols[idxExp]  || "") : "",
-            gold:  idxGold >= 0 ? (cols[idxGold] || "") : "",
+            hp: idxHP >= 0 ? (cols[idxHP] || "") : "",
+            exp: idxExp >= 0 ? (cols[idxExp] || "") : "",
+            gold: idxGold >= 0 ? (cols[idxGold] || "") : "",
           });
         }
       }
 
       const table = document.createElement("table");
       table.className = "boss-index-table";
-
       const thead = document.createElement("thead");
       const trh = document.createElement("tr");
       ["ボス戦名", "出現場所", "HP", "経験値", "ゴールド"].forEach((label) => {
@@ -127,7 +125,6 @@ function setupBossList(root) {
         tr.appendChild(tdHP);
         tr.appendChild(tdExp);
         tr.appendChild(tdGold);
-
         tbody.appendChild(tr);
       }
       table.appendChild(tbody);
@@ -159,16 +156,17 @@ function setupBossDetail(root) {
         return;
       }
 
-      const header   = rows[0];
-      const idxBoss  = header.indexOf("ボス戦名");
-      const idxUnit  = header.indexOf("個体名");
+      const header = rows[0];
+      const idxBoss = header.indexOf("ボス戦名");
+      const idxUnit = header.indexOf("個体名");
       const idxCount = header.indexOf("体数");
-      const idxHP    = header.indexOf("HP");
-      const idxExp   = header.indexOf("経験値");
-      const idxGold  = header.indexOf("ゴールド");
+      const idxHP = header.indexOf("HP");
+      const idxExp = header.indexOf("経験値");
+      const idxGold = header.indexOf("ゴールド");
       const idxPlace = header.indexOf("出現場所");
-      const idxNote  = header.indexOf("特徴メモ");
-      const idxSrc   = header.indexOf("参考元");
+      const idxNote = header.indexOf("特徴メモ");
+      const idxPattern = header.indexOf("行動パターン");
+      const idxSrc = header.indexOf("参考元");
 
       if (idxBoss === -1) {
         root.textContent = "ボス名の列が見つかりません。";
@@ -182,14 +180,15 @@ function setupBossDetail(root) {
         if (!cols[idxBoss] || cols[idxBoss] !== bossName) continue;
 
         const unit = {
-          unit:  idxUnit  >= 0 ? (cols[idxUnit]  || "") : "",
+          unit: idxUnit >= 0 ? (cols[idxUnit] || "") : "",
           count: idxCount >= 0 ? (cols[idxCount] || "") : "",
-          hp:    idxHP    >= 0 ? (cols[idxHP]    || "") : "",
-          exp:   idxExp   >= 0 ? (cols[idxExp]   || "") : "",
-          gold:  idxGold  >= 0 ? (cols[idxGold]  || "") : "",
+          hp: idxHP >= 0 ? (cols[idxHP] || "") : "",
+          exp: idxExp >= 0 ? (cols[idxExp] || "") : "",
+          gold: idxGold >= 0 ? (cols[idxGold] || "") : "",
           place: idxPlace >= 0 ? (cols[idxPlace] || "") : "",
-          note:  idxNote  >= 0 ? (cols[idxNote]  || "") : "",
-          src:   idxSrc   >= 0 ? (cols[idxSrc]   || "") : "",
+          note: idxNote >= 0 ? (cols[idxNote] || "") : "",
+          pattern: idxPattern >= 0 ? (cols[idxPattern] || "") : "",
+          src: idxSrc >= 0 ? (cols[idxSrc] || "") : "",
         };
         if (!place && unit.place) place = unit.place;
         units.push(unit);
@@ -200,7 +199,7 @@ function setupBossDetail(root) {
         return;
       }
 
-      // ---- ここから表示レイアウト（改行・ブロック表示） ----
+      // 表示レイアウト：ブロック表示
       root.innerHTML = "";
 
       const h2 = document.createElement("h2");
@@ -213,7 +212,6 @@ function setupBossDetail(root) {
         root.appendChild(pPlace);
       }
 
-      // 各個体をブロックごとに表示
       units.forEach((u) => {
         const section = document.createElement("section");
         section.className = "boss-unit-block";
@@ -226,8 +224,8 @@ function setupBossDetail(root) {
 
         const pStatus = document.createElement("p");
         const statusParts = [];
-        if (u.hp)   statusParts.push("HP：" + u.hp);
-        if (u.exp)  statusParts.push("経験値：" + u.exp);
+        if (u.hp) statusParts.push("HP：" + u.hp);
+        if (u.exp) statusParts.push("経験値：" + u.exp);
         if (u.gold) statusParts.push("ゴールド：" + u.gold);
         pStatus.textContent = statusParts.join(" / ");
         section.appendChild(pStatus);
@@ -236,6 +234,12 @@ function setupBossDetail(root) {
           const pNote = document.createElement("p");
           pNote.textContent = "特徴・メモ：" + u.note;
           section.appendChild(pNote);
+        }
+
+        if (u.pattern) {
+          const pPattern = document.createElement("p");
+          pPattern.textContent = "行動パターン：" + u.pattern;
+          section.appendChild(pPattern);
         }
 
         if (u.src) {
@@ -253,7 +257,7 @@ function setupBossDetail(root) {
     });
 }
 
-// simple CSV parser
+// simple CSV parser（外部ライブラリは使わない）
 function parseCSV(text) {
   const rows = [];
   let row = [];
