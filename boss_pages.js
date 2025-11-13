@@ -2,71 +2,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const listRoot = document.querySelector('[data-role="boss-list"]');
   const detailRoot = document.querySelector('[data-role="boss-detail"]');
 
-  if (listRoot) {
-    setupBossList(listRoot);
-  }
-  if (detailRoot) {
-    setupBossDetail(detailRoot);
-  }
+  if (listRoot) setupBossList(listRoot);
+  if (detailRoot) setupBossDetail(detailRoot);
 });
 
 function setupBossList(root) {
   const csvFile = root.getAttribute("data-csv");
-  const detailPage = root.getAttribute("data-detail") || "boss_detail.html";
+  const detailPage = root.getAttribute("data-detail") || "dq1_boss_detail.html";
   if (!csvFile) return;
 
   fetch(csvFile)
-    .then((res) => {
+    .then(res => {
       if (!res.ok) throw new Error("CSV load failed: " + res.status);
       return res.text();
     })
-    .then((text) => {
+    .then(text => {
       const rows = parseCSV(text);
       if (!rows || rows.length <= 1) return;
 
       const header = rows[0];
-      const idxBoss = header.indexOf("ボス戦名");
+      const idxBoss  = header.indexOf("ボス戦名");
+      const idxHP    = header.indexOf("HP");
+      const idxExp   = header.indexOf("経験値");
+      const idxGold  = header.indexOf("ゴールド");
       const idxPlace = header.indexOf("出現場所");
-      const idxHP = header.indexOf("HP");
-      const idxExp = header.indexOf("経験値");
-      const idxGold = header.indexOf("ゴールド");
       if (idxBoss === -1) return;
 
       const bosses = new Map();
-
       for (let i = 1; i < rows.length; i++) {
         const cols = rows[i];
         const bossName = cols[idxBoss] || "";
         if (!bossName) continue;
 
-        const placeVal = idxPlace >= 0 ? (cols[idxPlace] || "") : "";
-        const hpVal = idxHP >= 0 ? (cols[idxHP] || "") : "";
-        const expVal = idxExp >= 0 ? (cols[idxExp] || "") : "";
-        const goldVal = idxGold >= 0 ? (cols[idxGold] || "") : "";
-
         if (!bosses.has(bossName)) {
           bosses.set(bossName, {
             name: bossName,
-            place: placeVal,
-            hp: hpVal,
-            exp: expVal,
-            gold: goldVal,
+            hp:   idxHP   >= 0 ? (cols[idxHP]   || "") : "",
+            exp:  idxExp  >= 0 ? (cols[idxExp]  || "") : "",
+            gold: idxGold >= 0 ? (cols[idxGold] || "") : "",
+            place: idxPlace >= 0 ? (cols[idxPlace] || "") : ""
           });
-        } else {
-          const info = bosses.get(bossName);
-          if (!info.place && placeVal) info.place = placeVal;
-          if (!info.hp && hpVal) info.hp = hpVal;
-          if (!info.exp && expVal) info.exp = expVal;
-          if (!info.gold && goldVal) info.gold = goldVal;
         }
       }
 
       const table = document.createElement("table");
       table.className = "boss-index-table";
-
       const thead = document.createElement("thead");
       const trh = document.createElement("tr");
-      ["ボス戦名", "出現場所", "HP", "経験値", "ゴールド"].forEach((label) => {
+      ["ボス戦名", "出現場所", "HP", "経験値", "ゴールド"].forEach(label => {
         const th = document.createElement("th");
         th.textContent = label;
         trh.appendChild(th);
@@ -101,15 +84,12 @@ function setupBossList(root) {
         tr.appendChild(tdHP);
         tr.appendChild(tdExp);
         tr.appendChild(tdGold);
-
         tbody.appendChild(tr);
       }
       table.appendChild(tbody);
       root.appendChild(table);
     })
-    .catch((err) => {
-      console.error(err);
-    });
+    .catch(err => console.error(err));
 }
 
 function setupBossDetail(root) {
@@ -124,11 +104,11 @@ function setupBossDetail(root) {
   }
 
   fetch(csvFile)
-    .then((res) => {
+    .then(res => {
       if (!res.ok) throw new Error("CSV load failed: " + res.status);
       return res.text();
     })
-    .then((text) => {
+    .then(text => {
       const rows = parseCSV(text);
       if (!rows || rows.length <= 1) {
         root.textContent = "データが見つかりません。";
@@ -136,15 +116,15 @@ function setupBossDetail(root) {
       }
 
       const header = rows[0];
-      const idxBoss = header.indexOf("ボス戦名");
-      const idxUnit = header.indexOf("個体名");
+      const idxBoss  = header.indexOf("ボス戦名");
+      const idxUnit  = header.indexOf("個体名");
       const idxCount = header.indexOf("体数");
-      const idxHP = header.indexOf("HP");
-      const idxExp = header.indexOf("経験値");
-      const idxGold = header.indexOf("ゴールド");
+      const idxHP    = header.indexOf("HP");
+      const idxExp   = header.indexOf("経験値");
+      const idxGold  = header.indexOf("ゴールド");
       const idxPlace = header.indexOf("出現場所");
-      const idxNote = header.indexOf("特徴メモ");
-      const idxSrc = header.indexOf("参考元");
+      const idxNote  = header.indexOf("特徴メモ");
+      const idxSrc   = header.indexOf("参考元");
 
       if (idxBoss === -1) {
         root.textContent = "ボス名の列が見つかりません。";
@@ -158,14 +138,14 @@ function setupBossDetail(root) {
         if (!cols[idxBoss] || cols[idxBoss] !== bossName) continue;
 
         const unit = {
-          unit: idxUnit >= 0 ? (cols[idxUnit] || "") : "",
+          unit:  idxUnit  >= 0 ? (cols[idxUnit]  || "") : "",
           count: idxCount >= 0 ? (cols[idxCount] || "") : "",
-          hp: idxHP >= 0 ? (cols[idxHP] || "") : "",
-          exp: idxExp >= 0 ? (cols[idxExp] || "") : "",
-          gold: idxGold >= 0 ? (cols[idxGold] || "") : "",
+          hp:    idxHP    >= 0 ? (cols[idxHP]    || "") : "",
+          exp:   idxExp   >= 0 ? (cols[idxExp]   || "") : "",
+          gold:  idxGold  >= 0 ? (cols[idxGold]  || "") : "",
           place: idxPlace >= 0 ? (cols[idxPlace] || "") : "",
-          note: idxNote >= 0 ? (cols[idxNote] || "") : "",
-          src: idxSrc >= 0 ? (cols[idxSrc] || "") : "",
+          note:  idxNote  >= 0 ? (cols[idxNote]  || "") : "",
+          src:   idxSrc   >= 0 ? (cols[idxSrc]   || "") : ""
         };
         if (!place && unit.place) place = unit.place;
         units.push(unit);
@@ -190,7 +170,7 @@ function setupBossDetail(root) {
       table.className = "boss-detail-table";
       const thead = document.createElement("thead");
       const trh = document.createElement("tr");
-      ["個体名", "体数", "HP", "経験値", "ゴールド", "特徴メモ", "参考元"].forEach((label) => {
+      ["個体名", "体数", "HP", "経験値", "ゴールド", "特徴メモ", "参考元"].forEach(label => {
         const th = document.createElement("th");
         th.textContent = label;
         trh.appendChild(th);
@@ -201,16 +181,8 @@ function setupBossDetail(root) {
       const tbody = document.createElement("tbody");
       for (const u of units) {
         const tr = document.createElement("tr");
-        const cols = [
-          u.unit,
-          u.count,
-          u.hp,
-          u.exp,
-          u.gold,
-          u.note,
-          u.src,
-        ];
-        cols.forEach((val) => {
+        const cols = [u.unit, u.count, u.hp, u.exp, u.gold, u.note, u.src];
+        cols.forEach(val => {
           const td = document.createElement("td");
           td.textContent = val || "";
           tr.appendChild(td);
@@ -220,13 +192,12 @@ function setupBossDetail(root) {
       table.appendChild(tbody);
       root.appendChild(table);
     })
-    .catch((err) => {
+    .catch(err => {
       console.error(err);
       root.textContent = "読み込み中にエラーが発生しました。";
     });
 }
 
-// simple CSV parser (no external library)
 function parseCSV(text) {
   const rows = [];
   let row = [];
