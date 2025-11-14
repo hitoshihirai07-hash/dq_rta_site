@@ -1,12 +1,12 @@
 :root {
-  /* 好きな色に変えたいときはここをいじれば全ページに反映されます */
-  --bg-body: #f7f5ff;
-  --bg-main: #ffffff;
-  --accent: #2563eb;
-  --accent-soft: #e0f2ff;
-  --border-soft: #d1d5db;
-  --text-main: #111827;
-  --text-sub: #4b5563;
+  /* 全体の雰囲気：少しレトロな緑系に変更 */
+  --bg-body: #f4f1e6;      /* ページ全体の背景：薄いベージュ */
+  --bg-main: #ffffff;      /* メインコンテンツの背景：白 */
+  --accent: #1b7f5f;       /* 見出し・リンクなどのメインカラー（深い緑） */
+  --accent-soft: #d5efe3;  /* 薄い緑（テーブルの背景などに使う用） */
+  --border-soft: #c4b89c;  /* やわらかめの枠線色（少しブラウン寄り） */
+  --text-main: #222222;    /* 普通の文字色 */
+  --text-sub: #5f5b52;     /* サブテキスト・注釈用の文字色 */
 }
 
 body {
@@ -30,7 +30,7 @@ a:hover {
 }
 
 h1, .page-title {
-  color: var(--text-main);
+  color: var(--accent);
 }
 
 .card, .boss-main-block {
