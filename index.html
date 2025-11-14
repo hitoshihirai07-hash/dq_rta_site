@@ -1,412 +1,58 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <link rel="stylesheet" href="theme.css">
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ドラゴンクエストI・II HD-2D 非公式HYPERメモ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    /* 全体の基本設定 -------------------------------- */
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      line-height: 1.6;
-      background-color: #f5f5f5;
-      color: #222;
-    }
-
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* レイアウト全体 -------------------------------- */
-    .layout {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      background: #20232a;
-      color: #fff;
-      padding: 12px 20px;
-      border-bottom: 3px solid #4caf50;
-    }
-
-    header .site-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    header .site-subtitle {
-      font-size: 12px;
-      opacity: 0.8;
-      margin: 2px 0 0;
-    }
-
-    .main-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: stretch;
-    }
-
-    /* サイドバー ------------------------------------ */
-    .sidebar {
-      width: 260px;
-      background: #ffffff;
-      border-right: 1px solid #ddd;
-      padding: 16px 14px;
-      font-size: 14px;
-    }
-
-    .sidebar-logo {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .sidebar-version {
-      font-size: 11px;
-      color: #777;
-      margin-bottom: 16px;
-    }
-
-    .nav-section-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: #555;
-      margin: 16px 0 4px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 3px;
-    }
-
-    .nav-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-list li {
-      margin: 4px 0;
-    }
-
-    .nav-list a {
-      display: block;
-      padding: 4px 4px;
-      border-radius: 3px;
-    }
-
-    .nav-list a:hover {
-      background: #f0f7ff;
-      text-decoration: none;
-    }
-
-    .nav-list a.is-current {
-      background: #e3f2fd;
-      font-weight: 600;
-    }
-
-    /* コンテンツエリア ------------------------------ */
-    .content {
-      flex: 1;
-      padding: 18px 20px 40px;
-    }
-
-    .breadcrumb {
-      font-size: 11px;
-      margin-bottom: 6px;
-      color: #777;
-    }
-
-    .breadcrumb a {
-      color: #777;
-    }
-
-    .page-title {
-      font-size: 22px;
-      margin: 4px 0 8px;
-    }
-
-    .page-description {
-      font-size: 13px;
-      color: #555;
-      margin-bottom: 18px;
-    }
-
-    .section {
-      background: #ffffff;
-      border-radius: 4px;
-      border: 1px solid #e0e0e0;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-size: 16px;
-      margin: 0 0 8px;
-      border-left: 4px solid #4caf50;
-      padding-left: 8px;
-    }
-
-    .section p {
-      font-size: 13px;
-      margin: 4px 0 8px;
-    }
-
-    /* トップから各カテゴリへのカードリンク ------- */
-    .link-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .link-card {
-      border-radius: 4px;
-      border: 1px solid #e0e0e0;
-      background: #fafafa;
-      padding: 10px 10px;
-      font-size: 13px;
-      transition: background 0.15s, transform 0.1s;
-    }
-
-    .link-card-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .link-card-desc {
-      font-size: 12px;
-      color: #666;
-    }
-
-    .link-card:hover {
-      background: #f0f7ff;
-      transform: translateY(-1px);
-    }
-
-    /* 更新情報 -------------------------------------- */
-    .update-list {
-      font-size: 12px;
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    .update-list li {
-      margin: 2px 0;
-    }
-
-    .update-date {
-      font-family: "SF Mono", Menlo, Consolas, monospace;
-      font-size: 11px;
-      color: #555;
-      margin-right: 4px;
-    }
-
-    footer {
-      font-size: 11px;
-      color: #777;
-      padding: 8px 14px 10px;
-      border-top: 1px solid #ddd;
-      background: #fdfdfd;
-      text-align: right;
-    }
-
-    /* スマホ・タブレット用レイアウト調整 ---------- */
-    @media (max-width: 900px) {
-      .main-wrapper {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #ddd;
-      }
-
-      .content {
-        padding: 14px 12px 28px;
-      }
-    }
-  </style>
+  <!-- 共通テーマ -->
+  <link rel="stylesheet" href="theme.css">
 </head>
-
 <body>
-  <div class="layout">
-    <!-- ヘッダー：サイト全体のタイトル -->
-    <header>
-      <p class="site-title">ドラゴンクエストI・II HD-2D 非公式HYPERメモ</p>
-      <p class="site-subtitle">
-        DQ I・II HD-2D の情報を、のんびり整理していく個人用メモサイト（仮）。
-      </p>
-    </header>
+  <main>
+    <h1>DQI・II HD-2D 情報メモ（仮）</h1>
 
-    <div class="main-wrapper">
-      <!-- サイドバー：カテゴリ一覧 ------------------------------------ -->
-      <aside class="sidebar">
-        <div class="sidebar-logo">DQ I・II HD-2D</div>
-        <div class="sidebar-version">ver.0.1 / 作成途中</div>
+    <p>ここはドラゴンクエストI・II HD-2D版の情報を、自分用メモとして整理していくための非公式サイトです。</p>
+    <p>まずは項目だけざっくり作って、あとから少しずつ中身を埋めていく方針で進めています。</p>
 
-        <!-- 基本情報ブロック -->
-        <div class="nav-section">
-          <div class="nav-section-title">基本</div>
-          <ul class="nav-list">
-            <li>
-              <!-- 今はこのページなので is-current を付けて強調 -->
-              <a href="index.html" class="is-current">トップページ</a>
-            </li>
-            <li><a href="#">サイトの使い方（予定）</a></li>
-            <li><a href="#">プレイ方針・注意点（予定）</a></li>
-          </ul>
-        </div>
+    <h2>基本</h2>
+    <ul>
+      <li>トップページ（このページ）</li>
+      <li>サイトの使い方（予定）</li>
+      <li>プレイ方針・注意点（予定）</li>
+    </ul>
 
-        <!-- 攻略系ブロック -->
-        <div class="nav-section">
-          <div class="nav-section-title">攻略ガイド</div>
-          <ul class="nav-list">
-            <li><a href="#">DQI ストーリー攻略（予定）</a></li>
-            <li><a href="#">DQII ストーリー攻略（予定）</a></li>
-            <li><a href="dq1_boss_list.html">DQI ボス攻略一覧</a></li>
-　　　　　　<li><a href="dq2_boss_list.html">DQII ボス攻略一覧</a></li>
-          </ul>
-        </div>
+    <h2>攻略ガイド</h2>
+    <ul>
+      <li>DQI ストーリー攻略（予定）</li>
+      <li>DQII ストーリー攻略（予定）</li>
+      <li><a href="dq1_boss_list.html">DQI ボス攻略一覧</a></li>
+      <li><a href="dq2_boss_list.html">DQII ボス攻略一覧</a></li>
+    </ul>
 
-        <!-- データ系ブロック -->
-        <div class="nav-section">
-          <div class="nav-section-title">データ系</div>
-          <ul class="nav-list">
-            <li><a href="#">武器・防具・道具（予定）</a></li>
-            <li><a href="#">呪文・特技（予定）</a></li>
-            <li><a href="#">モンスター一覧（予定）</a></li>
-            <li><a href="#">マップ・宝箱メモ（予定）</a></li>
-          </ul>
-        </div>
+    <h2>データ系</h2>
+    <ul>
+      <li>武器・防具・道具（予定）</li>
+      <li>呪文・特技（予定）</li>
+      <li>モンスター一覧（予定）</li>
+      <li>マップ・宝箱メモ（予定）</li>
+    </ul>
 
-        <!-- その他 -->
-        <div class="nav-section">
-          <div class="nav-section-title">その他</div>
-          <ul class="nav-list">
-            <li><a href="#">メモ・小ネタ（予定）</a></li>
-            <li><a href="#">更新履歴</a></li>
-            <li><a href="about.html">このサイトについて</a></li>
-          </ul>
-        </div>
-      </aside>
+    <h2>その他</h2>
+    <ul>
+      <li>メモ・小ネタ（予定）</li>
+      <li><a href="about.html">このサイトについて</a></li>
+    </ul>
 
-      <!-- メインコンテンツ -------------------------------------------- -->
-      <main class="content">
-        <!-- パンくず（今はトップ固定） -->
-        <div class="breadcrumb">
-          <a href="index.html">トップ</a> &gt; DQI・II HD-2D 情報メモ
-        </div>
+    <h2>更新履歴（メモ）</h2>
+    <ul>
+      <li>2025-11-12 サイトのたたき台となるトップページを作成。</li>
+      <li>2025-11-xx DQIボス攻略ページ（仮）を作成予定。</li>
+    </ul>
 
-        <h1 class="page-title">DQI・II HD-2D 情報メモ（仮）</h1>
-        <p class="page-description">
-          ここはドラゴンクエストI・II HD-2D版の情報を、自分用メモとして整理していくための非公式サイトです。<br />
-          まずは項目だけざっくり作って、あとから少しずつ中身を埋めていく方針で進めています。
-        </p>
-
-        <!-- セクション：これから作るページの入口カード群 -->
-        <section class="section">
-          <h2 class="section-title">メインコンテンツ予定</h2>
-          <p>
-            下のカードは、今後作っていきたいページへの入口イメージです。最初は
-            <strong>「DQIボス攻略」か「ストーリー攻略」</strong>
-            など、1つだけ中身のあるページを作るところから始めると良さそうです。
-          </p>
-
-          <div class="link-grid">
-            <a href="#" class="link-card">
-              <div class="link-card-title">DQI ストーリー攻略（予定）</div>
-              <div class="link-card-desc">
-                町・ダンジョンごとの攻略メモ、取り逃し注意ポイント、推奨レベルなどをまとめる予定。
-              </div>
-            </a>
-
-            <a href="#" class="link-card">
-              <div class="link-card-title">DQII ストーリー攻略（予定）</div>
-              <div class="link-card-desc">
-                シナリオ進行・ルート・重要イベントをゆるく整理していく予定。
-              </div>
-            </a>
-
-            <a href="#" class="link-card">
-              <div class="link-card-title">ボス攻略一覧（予定）</div>
-              <div class="link-card-desc">
-                ボスごとのHP目安・弱点・行動パターン・推奨レベルなど。まずは1体ずつメモ感覚で。
-              </div>
-            </a>
-
-            <a href="#" class="link-card">
-              <div class="link-card-title">武器・防具・道具（予定）</div>
-              <div class="link-card-desc">
-                攻撃力・守備力・効果・入手場所などの一覧表。のちのち絞り込みやソートも追加できると便利。
-              </div>
-            </a>
-
-            <a href="#" class="link-card">
-              <div class="link-card-title">モンスター・図鑑メモ（予定）</div>
-              <div class="link-card-desc">
-                経験値・ゴールド・落とすアイテムなど。まずはよく周回する敵から整理していくイメージ。
-              </div>
-            </a>
-
-            <a href="#" class="link-card">
-              <div class="link-card-title">マップ・宝箱メモ（予定）</div>
-              <div class="link-card-desc">
-                重要な宝箱や寄り道スポットだけでもメモにしていく予定。余裕があれば画像マップ化も。
-              </div>
-            </a>
-          </div>
-        </section>
-
-        <!-- セクション：更新履歴ダミー -->
-        <section class="section">
-          <h2 class="section-title">更新履歴（メモ）</h2>
-          <p>
-            まだ試運転段階なので、しばらくは自分の作業ログ的に使うイメージでOKです。
-          </p>
-          <ul class="update-list">
-            <li>
-              <span class="update-date">2025-11-12</span>
-              サイトのたたき台となるトップページ（HYPERwiki風）を作成。
-            </li>
-            <li>
-              <span class="update-date">2025-11-xx</span>
-              DQIボス攻略ページ（仮）を作成予定。
-            </li>
-          </ul>
-        </section>
-
-        <!-- セクション：今後の方針メモ -->
-        <section class="section">
-          <h2 class="section-title">今後の方針メモ</h2>
-          <p>
-            ・最初は<strong>1ページだけ</strong>ちゃんと作る（例：DQIボス攻略）。<br />
-            ・ページが増えてきたら、サイドバーのリンク先を実ファイルに差し替えていく。<br />
-            ・慣れてきたらデザイン調整や、JavaScriptを使った絞り込み・計算ツールにも挑戦する。
-          </p>
-        </section>
-      </main>
-    </div>
-
-    <!-- フッター ------------------------------------ -->
     <footer>
-      © 2025 ヒトシ（仮） / 非公式ファンサイト・画像・文言などの権利は各権利者に帰属します。
+      <p>© 2025 ヒトシ / 非公式ファンサイト・画像・文言などの権利は各権利者に帰属します。</p>
     </footer>
-  </div>
+  </main>
 </body>
 </html>
-
