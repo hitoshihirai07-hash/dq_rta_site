@@ -2,130 +2,39 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>DQ1データベース | DQ RTA Site</title>
+  <title>ドラゴンクエストI データベース</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background-color: #111827;
-      color: #e5e7eb;
-      margin: 0;
-      padding: 0;
+    body { font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+           background-color:#111827;color:#e5e7eb;margin:0;padding:0; }
+    header { background:#1f2937;padding:12px 16px;display:flex;align-items:center;
+             justify-content:space-between;border-bottom:1px solid #374151; }
+    header h1 { font-size:18px;margin:0; }
+    header a { color:#93c5fd;text-decoration:none;font-size:14px; }
+    main { padding:16px;max-width:1200px;margin:0 auto; }
+    .tabs { display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap; }
+    .tab-btn { border:1px solid #4b5563;background:#111827;color:#e5e7eb;
+               padding:6px 10px;border-radius:999px;font-size:13px;cursor:pointer; }
+    .tab-btn.active { background:#2563eb;border-color:#2563eb; }
+    .controls { display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center; }
+    .controls input[type="search"], .controls select {
+      background:#111827;border:1px solid #4b5563;border-radius:6px;
+      padding:6px 8px;color:#e5e7eb;font-size:13px;
     }
-    header {
-      background: #1f2937;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #374151;
-    }
-    header h1 {
-      font-size: 18px;
-      margin: 0;
-    }
-    header a {
-      color: #93c5fd;
-      text-decoration: none;
-      font-size: 14px;
-    }
-    main {
-      padding: 16px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .tab-btn {
-      border: 1px solid #4b5563;
-      background: #111827;
-      color: #e5e7eb;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .tab-btn.active {
-      background: #2563eb;
-      border-color: #2563eb;
-    }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-      align-items: center;
-    }
-    .controls input[type="search"],
-    .controls select {
-      background: #111827;
-      border: 1px solid #4b5563;
-      border-radius: 6px;
-      padding: 6px 8px;
-      color: #e5e7eb;
-      font-size: 13px;
-    }
-    .controls label {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-    thead {
-      background: #111827;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-    th, td {
-      border: 1px solid #374151;
-      padding: 4px 6px;
-      vertical-align: top;
-    }
-    th {
-      text-align: left;
-      white-space: nowrap;
-    }
-    tbody tr:nth-child(even) {
-      background: #020617;
-    }
-    tbody tr:nth-child(odd) {
-      background: #030712;
-    }
-    .pill {
-      display: inline-block;
-      padding: 0 6px;
-      border-radius: 999px;
-      font-size: 11px;
-      border: 1px solid #4b5563;
-      background: rgba(15, 23, 42, 0.8);
-    }
-    .muted {
-      color: #9ca3af;
-      font-size: 11px;
-    }
-    .nowrap {
-      white-space: nowrap;
-    }
-    .tab-panel {
-      display: none;
-    }
-    .tab-panel.active {
-      display: block;
-    }
-    .table-wrap {
-      max-height: 70vh;
-      overflow: auto;
-      border-radius: 8px;
-      border: 1px solid #374151;
-    }
+    .controls label { font-size:12px;color:#9ca3af;display:flex;flex-direction:column;gap:2px; }
+    table { width:100%;border-collapse:collapse;font-size:12px; }
+    thead { background:#111827;position:sticky;top:0;z-index:1; }
+    th, td { border:1px solid #374151;padding:4px 6px;vertical-align:top; }
+    th { text-align:left;white-space:nowrap; }
+    tbody tr:nth-child(even) { background:#020617; }
+    tbody tr:nth-child(odd) { background:#030712; }
+    .pill { display:inline-block;padding:0 6px;border-radius:999px;font-size:11px;
+            border:1px solid #4b5563;background:rgba(15,23,42,.8); }
+    .muted { color:#9ca3af;font-size:11px;margin-top:4px; }
+    .nowrap { white-space:nowrap; }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+    .table-wrap { max-height:70vh;overflow:auto;border-radius:8px;border:1px solid #374151; }
   </style>
 </head>
 <body>
@@ -149,7 +58,11 @@
           <select id="items-kind">
             <option value="">すべて</option>
             <option value="道具">道具</option>
-            <option value="装備">装備</option>
+            <option value="装備">装備（全部）</option>
+            <option value="装備盾">装備盾</option>
+            <option value="装備兜">装備兜</option>
+            <option value="装備服">装備服</option>
+            <option value="装備装飾品">装備装飾品</option>
           </select>
         </label>
       </div>
@@ -169,7 +82,7 @@
           <tbody id="items-body"></tbody>
         </table>
       </div>
-      <p class="muted">※ 「元行」「元タイプ」「備考」は内部管理用としてCSVに含まれていますが、画面では非表示にしています。</p>
+      <p class="muted">※ CSVには管理用の列も含まれますが、画面では非表示にしています。</p>
     </section>
 
     <section id="spells" class="tab-panel" aria-label="呪文・特技">
@@ -196,7 +109,7 @@
               <th>効果</th>
               <th class="nowrap">習得Lv</th>
               <th>巻物</th>
-              <th>備考（必要技・巻物入手）</th>
+              <th>備考</th>
             </tr>
           </thead>
           <tbody id="spells-body"></tbody>
@@ -225,57 +138,34 @@
           <tbody id="monsters-body"></tbody>
         </table>
       </div>
-      <p class="muted">※ 攻撃力・守備力・素早さなどの追加データは、今後判明しだいCSVに列を追加すればここにも反映できます。</p>
     </section>
   </main>
 
   <script>
-    // === 設定: CSV ファイルのパス ===
     const CSV_ITEMS = "data/dq1_items.csv";
     const CSV_SPELLS = "data/dq1_spells.csv";
     const CSV_MONSTERS = "data/dq1_monsters.csv";
 
-    // 簡易 CSV パーサー（ダブルクォート対応）
     function parseCSV(text) {
-      // BOM除去
-      if (text.charCodeAt(0) === 0xFEFF) {
-        text = text.slice(1);
-      }
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
       const rows = [];
-      let row = [];
-      let field = "";
-      let inQuotes = false;
-
+      let row = [], field = "", inQuotes = false;
       for (let i = 0; i < text.length; i++) {
         const c = text[i];
         if (inQuotes) {
           if (c === '"') {
-            if (text[i + 1] === '"') {
-              field += '"';
-              i++;
-            } else {
-              inQuotes = false;
-            }
-          } else {
-            field += c;
-          }
+            if (text[i+1] === '"') { field += '"'; i++; }
+            else { inQuotes = false; }
+          } else field += c;
         } else {
-          if (c === '"') {
-            inQuotes = true;
-          } else if (c === ",") {
+          if (c === '"') inQuotes = true;
+          else if (c === ",") { row.push(field); field = ""; }
+          else if (c === "\n" || c === "\r") {
+            if (c === "\r" && text[i+1] === "\n") i++;
             row.push(field);
-            field = "";
-          } else if (c === "\n" || c === "\r") {
-            if (c === "\r" && text[i + 1] === "\n") i++;
-            row.push(field);
-            if (row.length > 1 || row[0] !== "") {
-              rows.push(row);
-            }
-            row = [];
-            field = "";
-          } else {
-            field += c;
-          }
+            if (row.length > 1 || row[0] !== "") rows.push(row);
+            row = []; field = "";
+          } else field += c;
         }
       }
       if (field.length > 0 || row.length > 0) {
@@ -290,9 +180,7 @@
       const text = await res.text();
       const rows = parseCSV(text);
       if (!rows.length) return { header: [], data: [] };
-      const header = rows[0];
-      const data = rows.slice(1);
-      return { header, data };
+      return { header: rows[0], data: rows.slice(1) };
     }
 
     function textMatch(haystack, needle) {
@@ -300,13 +188,11 @@
       if (!haystack) return false;
       return haystack.toString().toLowerCase().includes(needle.toLowerCase());
     }
-
     function nl2br(text) {
       if (!text) return "";
       return text.replace(/\n/g, "<br>");
     }
 
-    // === アイテム描画 ===
     async function renderItems() {
       const { header, data } = await loadCSV(CSV_ITEMS);
       const idx = Object.fromEntries(header.map((h, i) => [h, i]));
@@ -318,57 +204,82 @@
         const kw = searchInput.value.trim();
         const kindFilter = kindSelect.value;
         tbody.innerHTML = "";
-        for (const row of data) {
-          const kind = row[idx["種別"]] || "";
-          const name = row[idx["名前"]] || "";
-          const atk = row[idx["攻撃力"]] || "";
-          const def = row[idx["守備力"]] || "";
-          const price = row[idx["価格"]] || "";
-          const effect = row[idx["効果"]] || "";
-          const acquire = row[idx["入手方法"]] || "";
-          const note = row[idx["備考"]] || "";
 
-          if (kindFilter && kind !== kindFilter) continue;
+        const rowsToShow = [];
+
+        for (const row of data) {
+          const kind    = row[idx["種別"]] || "";
+          const name    = row[idx["名前"]] || "";
+          const atk     = row[idx["攻撃力"]] || "";
+          const def     = row[idx["守備力"]] || "";
+          const price   = row[idx["価格"]] || "";
+          const effect  = row[idx["効果"]] || "";
+          const acquire = row[idx["入手方法"]] || "";
+          const note    = row[idx["備考"]] || "";
+
+          if (kindFilter) {
+            if (kindFilter === "装備") {
+              if (!kind.includes("装備")) continue;
+            } else {
+              if (kind !== kindFilter) continue;
+            }
+          }
 
           const fullText = [kind, name, atk, def, price, effect, acquire, note].join(" ");
           if (!textMatch(fullText, kw)) continue;
 
+          rowsToShow.push({ kind, name, atk, def, price, effect, acquire });
+        }
+
+        rowsToShow.sort((a, b) => {
+          const rank = (k) => {
+            if (k === "道具") return 0;
+            if (k.includes("装備")) return 1;
+            return 2;
+          };
+          const ra = rank(a.kind);
+          const rb = rank(b.kind);
+          if (ra !== rb) return ra - rb;
+          return (a.name || "").localeCompare(b.name || "", "ja");
+        });
+
+        for (const item of rowsToShow) {
           const tr = document.createElement("tr");
 
           const tdKind = document.createElement("td");
-          if (kind) {
+          if (item.kind) {
             const span = document.createElement("span");
             span.className = "pill";
-            span.textContent = kind;
+            span.textContent = item.kind;
             tdKind.appendChild(span);
           }
           tr.appendChild(tdKind);
 
           const tdName = document.createElement("td");
-          tdName.textContent = name;
+          tdName.textContent = item.name;
           tr.appendChild(tdName);
 
           const tdAtk = document.createElement("td");
           tdAtk.className = "nowrap";
-          tdAtk.textContent = atk;
+          tdAtk.textContent = item.atk;
           tr.appendChild(tdAtk);
 
           const tdDef = document.createElement("td");
           tdDef.className = "nowrap";
-          tdDef.textContent = def;
+          tdDef.textContent = item.def;
           tr.appendChild(tdDef);
 
           const tdPrice = document.createElement("td");
           tdPrice.className = "nowrap";
-          tdPrice.textContent = price;
+          tdPrice.textContent = item.price;
           tr.appendChild(tdPrice);
 
           const tdEffect = document.createElement("td");
-          tdEffect.innerHTML = nl2br(effect);
+          tdEffect.innerHTML = nl2br(item.effect);
           tr.appendChild(tdEffect);
 
           const tdAcquire = document.createElement("td");
-          tdAcquire.innerHTML = nl2br(acquire);
+          tdAcquire.innerHTML = nl2br(item.acquire);
           tr.appendChild(tdAcquire);
 
           tbody.appendChild(tr);
@@ -380,7 +291,6 @@
       applyFilter();
     }
 
-    // === 呪文描画 ===
     async function renderSpells() {
       const { header, data } = await loadCSV(CSV_SPELLS);
       const idx = Object.fromEntries(header.map((h, i) => [h, i]));
@@ -392,27 +302,30 @@
         const kw = searchInput.value.trim();
         const kindFilter = kindSelect.value;
         tbody.innerHTML = "";
+
         for (const row of data) {
-          const kind = row[idx["種別"]] || "";
+          let kind   = row[idx["種別"]] || "";
           const name = row[idx["名前"]] || "";
-          const mp = row[idx["消費MP"]] || "";
+          const mp   = row[idx["消費MP"]] || "";
           const effect = row[idx["効果"]] || "";
           const learnLv = row[idx["習得レベル"]] || "";
-          const scroll = row[idx["巻物取得可能"]] || "";
-          const note = row[idx["備考"]] || "";
+          const scroll  = row[idx["巻物取得可能"]] || "";
+          const note    = row[idx["備考"]] || "";
 
-          if (kindFilter && kind !== kindFilter) continue;
+          const kindForDisplay = kind || (note && note.includes("必要技") ? "超絶技" : kind);
 
-          const fullText = [kind, name, mp, effect, learnLv, scroll, note].join(" ");
+          if (kindFilter && kindForDisplay !== kindFilter) continue;
+
+          const fullText = [kindForDisplay, name, mp, effect, learnLv, scroll, note].join(" ");
           if (!textMatch(fullText, kw)) continue;
 
           const tr = document.createElement("tr");
 
           const tdKind = document.createElement("td");
-          if (kind) {
+          if (kindForDisplay) {
             const span = document.createElement("span");
             span.className = "pill";
-            span.textContent = kind;
+            span.textContent = kindForDisplay;
             tdKind.appendChild(span);
           }
           tr.appendChild(tdKind);
@@ -452,7 +365,6 @@
       applyFilter();
     }
 
-    // === モンスター描画 ===
     async function renderMonsters() {
       const { header, data } = await loadCSV(CSV_MONSTERS);
       const idx = Object.fromEntries(header.map((h, i) => [h, i]));
@@ -462,11 +374,12 @@
       function applyFilter() {
         const kw = searchInput.value.trim();
         tbody.innerHTML = "";
+
         for (const row of data) {
           const name = row[idx["名前"]] || "";
           const area = row[idx["出現エリア"]] || "";
-          const hp = row[idx["HP"]] || "";
-          const exp = row[idx["経験値"]] || "";
+          const hp   = row[idx["HP"]] || "";
+          const exp  = row[idx["経験値"]] || "";
           const gold = row[idx["ゴールド"]] || "";
           const drop = row[idx["ドロップ"]] || "";
 
@@ -510,7 +423,6 @@
       applyFilter();
     }
 
-    // タブ切り替え
     function setupTabs() {
       const buttons = document.querySelectorAll(".tab-btn");
       const panels = document.querySelectorAll(".tab-panel");
@@ -525,10 +437,8 @@
       });
     }
 
-    window.addEventListener("DOMContentLoaded", async () => {
+    window.addEventListener("DOMContentLoaded", () => {
       setupTabs();
-      // 先にアイテムだけ読み込み、他はタブを開いたタイミングでも可だが
-      // 今はまとめて読み込んでおく。
       renderItems();
       renderSpells();
       renderMonsters();
