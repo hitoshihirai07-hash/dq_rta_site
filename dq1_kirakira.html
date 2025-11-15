@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>DQ1 キラキラ・ひみつの場所 一覧</title>
+  <link rel="stylesheet" href="kira.css">
+</head>
+<body>
+  <h1>ドラゴンクエストI キラキラ・ひみつの場所 一覧</h1>
+  <p><a href="index.html">&larr; トップに戻る</a>（必要に応じてリンク先を調整してください）</p>
+
+  <div class="section">
+    <h2>キラキラの場所</h2>
+    <div class="map-wrapper">
+      <img src="dq1-kirakira.jpg" alt="DQ1 キラキラの場所マップ">
+    </div>
+    <div class="filter-bar">
+      <label>
+        キーワード検索：
+        <input type="text" id="dq1-kira-search" placeholder="入手物などで検索">
+      </label>
+    </div>
+    <table id="dq1-kira-table">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+    <p class="note">※ CSV: 「dq1_kirakira.csv」の列名と順番をそのまま使用しています。</p>
+  </div>
+
+  <div class="section">
+    <h2>ひみつの場所（赤い番号）</h2>
+    <div class="map-wrapper">
+      <img src="dq1-secret.jpg" alt="DQ1 ひみつの場所マップ（赤・緑）">
+    </div>
+    <div class="filter-bar">
+      <label>
+        キーワード検索：
+        <input type="text" id="dq1-secret-red-search" placeholder="番号・入手物・場所などで検索">
+      </label>
+    </div>
+    <table id="dq1-secret-red-table">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+    <p class="note">※ CSV: 「dq1_secret_place_red.csv」の列名と順番をそのまま使用しています。</p>
+  </div>
+
+  <div class="section">
+    <h2>ひみつの場所（緑の番号）</h2>
+    <div class="filter-bar">
+      <label>
+        キーワード検索：
+        <input type="text" id="dq1-secret-green-search" placeholder="番号・入手物・場所などで検索">
+      </label>
+    </div>
+    <table id="dq1-secret-green-table">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+    <p class="note">※ CSV: 「dq1_secret_place_green.csv」の列名と順番をそのまま使用しています。</p>
+  </div>
+
+  <script src="kirakira.js"></script>
+</body>
+</html>
